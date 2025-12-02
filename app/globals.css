@@ -2,148 +2,149 @@
 @tailwind components;
 @tailwind utilities;
 
-/* --- Global body background: deep space + energy fields --- */
+/* === GLOBAL BACKGROUND: DEEP SPACE + NEBULA === */
 body {
   @apply text-white overflow-x-hidden antialiased;
   background:
-    radial-gradient(circle at 10% 0%, rgba(56,189,248,0.25), transparent 55%),
-    radial-gradient(circle at 90% 100%, rgba(244,63,94,0.22), transparent 55%),
-    radial-gradient(circle at 20% 80%, rgba(129,140,248,0.3), transparent 55%),
+    radial-gradient(circle at 10% 0%, rgba(56,189,248,0.35), transparent 55%),
+    radial-gradient(circle at 85% 10%, rgba(244,63,94,0.32), transparent 55%),
+    radial-gradient(circle at 0% 90%, rgba(94,234,212,0.3), transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(129,140,248,0.3), transparent 55%),
     #020617;
 }
 
-/* Subtle noise overlay */
+/* Subtle noise / film grain */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
-  opacity: 0.12;
+  opacity: 0.15;
   mix-blend-mode: soft-light;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='noStitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.46'/%3E%3C/svg%3E");
-  z-index: -10;
+  z-index: -20;
 }
 
-/* --- Glass panel --- */
+/* === GLASS PANELS === */
 .glass {
-  background: radial-gradient(circle at top left, rgba(148,163,184,0.26), transparent 55%),
-    rgba(15,23,42,0.94);
+  background:
+    radial-gradient(circle at top left, rgba(148,163,184,0.26), transparent 55%),
+    rgba(15,23,42,0.96);
   border: 1px solid rgba(148,163,184,0.35);
   box-shadow:
     0 0 0 1px rgba(15,23,42,0.9),
-    0 30px 80px rgba(15,23,42,0.9);
-  backdrop-filter: blur(22px);
+    0 40px 120px rgba(15,23,42,0.95);
+  backdrop-filter: blur(24px);
 }
 
-/* --- Neon text --- */
+/* Edge glow */
+.glass-edge {
+  position: relative;
+}
+.glass-edge::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(56,189,248,0.55);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* === NEON TEXT === */
 .neon-text {
   text-shadow:
     0 0 12px rgba(56,189,248,0.85),
-    0 0 24px rgba(56,189,248,0.65);
+    0 0 28px rgba(56,189,248,0.7);
 }
 
-/* --- Scrollbar styling --- */
+/* === SCROLLBAR === */
 ::-webkit-scrollbar {
   width: 8px;
 }
-
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(to bottom, #22d3ee, #a855f7);
   border-radius: 12px;
 }
-
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 
-/* --- HUD grid overlay --- */
+/* === HUD GRID & SCANLINES === */
 .hud-grid {
   background-image:
-    linear-gradient(
-      rgba(15,23,42,0.7) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(15,23,42,0.7) 1px,
-      transparent 1px
-    );
+    linear-gradient(rgba(15,23,42,0.75) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15,23,42,0.75) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
-/* --- Scanline overlay --- */
 .hud-scanlines {
   background-image: repeating-linear-gradient(
     to bottom,
-    rgba(15,23,42,0.7),
-    rgba(15,23,42,0.7) 1px,
+    rgba(15,23,42,0.9),
+    rgba(15,23,42,0.9) 1px,
     transparent 1px,
     transparent 3px
   );
 }
 
-/* --- Orbiting energy ring --- */
+/* === ORBITING ENERGY RINGS === */
 .hud-orbit {
   position: absolute;
   border-radius: 9999px;
-  border: 1px solid rgba(56,189,248,0.35);
+  border: 1px solid rgba(56,189,248,0.38);
   box-shadow:
-    0 0 25px rgba(56,189,248,0.5),
-    0 0 80px rgba(8,47,73,0.8);
-  background: radial-gradient(circle at 30% 10%, rgba(56,189,248,0.4), transparent 55%);
-  animation: hud-orbit-spin 26s linear infinite;
-  opacity: 0.75;
+    0 0 30px rgba(56,189,248,0.8),
+    0 0 120px rgba(15,23,42,0.95);
+  background: radial-gradient(circle at 30% 10%, rgba(56,189,248,0.45), transparent 55%);
+  animation: hud-orbit-spin 32s linear infinite;
+  opacity: 0.8;
 }
-
 .hud-orbit::before,
 .hud-orbit::after {
   content: "";
   position: absolute;
-  inset: 10%;
+  inset: 12%;
   border-radius: inherit;
   border: 1px dashed rgba(94,234,212,0.3);
 }
-
 .hud-orbit::after {
-  inset: 25%;
+  inset: 26%;
   border-style: solid;
-  border-color: transparent rgba(59,130,246,0.4) transparent rgba(59,130,246,0.4);
+  border-color: transparent rgba(59,130,246,0.45) transparent rgba(59,130,246,0.45);
 }
 
-/* --- Radar / scanner widget (for use inside components if needed) --- */
+/* === RADAR / SCANNER WIDGET === */
 .hud-radar {
   position: relative;
   border-radius: 9999px;
   border: 1px solid rgba(15,23,42,0.9);
   background:
-    radial-gradient(circle, rgba(15,23,42,0.95), rgba(15,23,42,0.9)),
-    radial-gradient(circle at center, rgba(34,211,238,0.3), transparent 65%);
+    radial-gradient(circle, rgba(15,23,42,0.98), rgba(15,23,42,0.96)),
+    radial-gradient(circle at center, rgba(34,211,238,0.35), transparent 70%);
   overflow: hidden;
 }
-
 .hud-radar::before {
   content: "";
   position: absolute;
   inset: 10%;
   border-radius: inherit;
-  border: 1px solid rgba(34,211,238,0.18);
+  border: 1px solid rgba(34,211,238,0.22);
 }
-
 .hud-radar::after {
   content: "";
   position: absolute;
   inset: 0;
   background: conic-gradient(
     from 180deg,
-    rgba(34,211,238,0.55),
-    transparent 35%,
+    rgba(34,211,238,0.7),
+    transparent 40%,
     transparent 100%
   );
-  opacity: 0.8;
-  animation: hud-sweep 5s linear infinite;
+  opacity: 0.9;
+  animation: hud-sweep 4.5s linear infinite;
 }
-
-.hud-radar-line {
+.hud-radar-lines {
   position: absolute;
   inset: 0;
   background:
@@ -151,19 +152,52 @@ body::before {
     linear-gradient(to bottom, rgba(15,23,42,1) 49%, rgba(15,23,42,0) 50%, rgba(15,23,42,1) 51%);
   mix-blend-mode: soft-light;
 }
-
-/* Small pulsing blip */
 .hud-radar-blip {
   position: absolute;
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 9999px;
   background-color: rgba(34,211,238,0.9);
-  box-shadow: 0 0 14px rgba(34,211,238,0.9);
+  box-shadow: 0 0 18px rgba(34,211,238,0.9);
   animation: hud-blip 2.6s ease-out infinite;
 }
 
-/* --- Animations --- */
+/* === HOLOGRAPHIC CARDS === */
+.holo-card {
+  position: relative;
+  border-radius: 1.25rem;
+  background:
+    linear-gradient(135deg, rgba(15,23,42,0.96), rgba(15,23,42,0.92)),
+    radial-gradient(circle at 10% 0%, rgba(59,130,246,0.35), transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(236,72,153,0.3), transparent 55%);
+  border: 1px solid rgba(148,163,184,0.4);
+  box-shadow:
+    0 0 0 1px rgba(15,23,42,0.95),
+    0 30px 80px rgba(15,23,42,0.9);
+  overflow: hidden;
+}
+.holo-card::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: conic-gradient(
+    from 220deg,
+    rgba(59,130,246,0.6),
+    rgba(236,72,153,0.5),
+    rgba(34,211,238,0.6),
+    rgba(59,130,246,0.6)
+  );
+  opacity: 0.23;
+  filter: blur(28px);
+}
+
+/* === FONT UTILITY === */
+.font-orbitron {
+  font-family: var(--font-orbitron), system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+}
+
+/* === ANIMATIONS === */
 @keyframes hud-orbit-spin {
   from {
     transform: rotate(0deg) translate3d(0, 0, 0);
@@ -185,18 +219,18 @@ body::before {
 @keyframes hud-blip {
   0% {
     transform: scale(0.7);
-    opacity: 0.2;
+    opacity: 0.1;
   }
   30% {
     transform: scale(1);
     opacity: 1;
   }
   80% {
-    transform: scale(1.4);
+    transform: scale(1.5);
     opacity: 0;
   }
   100% {
-    transform: scale(1.4);
+    transform: scale(1.5);
     opacity: 0;
   }
 }
