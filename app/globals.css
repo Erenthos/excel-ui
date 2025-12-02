@@ -1,1 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global background */
+body {
+  @apply bg-black text-white overflow-x-hidden;
+  background-image: radial-gradient(circle at top, rgba(99,102,241,0.25), transparent 40%),
+                    radial-gradient(circle at bottom, rgba(236,72,153,0.25), transparent 40%);
+}
+
+/* Glass effect utility */
+.glass {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #6366f1, #ec4899);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Neon text glow */
+.neon-text {
+  text-shadow: 0 0 12px rgba(129,140,248,0.8);
+}
 
