@@ -7,6 +7,14 @@ export interface ColumnSchema {
   type: ColumnType;
 }
 
+// Excel serial date range (roughly from 1940–2070)
+function isExcelSerialDate(value: unknown): boolean {
+  if (typeof value !== "number") return false;
+  if (!Number.isFinite(value)) return false;
+  // tweak range if needed
+  return value > 25000 && value < 60000;
+}
+
 function isNumeric(value: unknown): boolean {
   if (value === null || value === undefined) return false;
 
@@ -46,7 +54,9 @@ function isDateLike(value: unknown): boolean {
     return !Number.isNaN(parsed);
   }
 
-  // Excel often stores dates as serial numbers; you may extend this if needed.
+  // numeric Excel serials
+  if (isExcelSerialDate(value)) return true;
+
   return false;
 }
 
@@ -73,6 +83,7 @@ export function detectColumnTypes(rows: Record<string, unknown>[]): ColumnSchema
     const numericCount = sampleValues.filter(isNumeric).length;
     const booleanCount = sampleValues.filter(isBooleanLike).length;
     const dateCount = sampleValues.filter(isDateLike).length;
+    const excelSerialCount = sampleValues.filter(isExcelSerialDate).length;
 
     const uniqueValues = new Set(
       sampleValues
@@ -83,15 +94,16 @@ export function detectColumnTypes(rows: Record<string, unknown>[]): ColumnSchema
 
     let type: ColumnType = "text";
 
-    // Priority: numeric, date, boolean, category, text
-    if (numericCount / sampleValues.length > 0.7) {
-      type = "number";
-    } else if (dateCount / sampleValues.length > 0.6) {
+    // Priority: dates (including Excel serials), numeric, boolean, category, text
+    const dateRatio = (dateCount + excelSerialCount) / sampleValues.length;
+
+    if (dateRatio > 0.6) {
       type = "date";
+    } else if (numericCount / sampleValues.length > 0.7) {
+      type = "number";
     } else if (booleanCount / sampleValues.length > 0.6) {
       type = "boolean";
     } else if (uniqueValues.size <= 20 && uniqueRatio < 0.7) {
-      // few repeating values → good for filters, legends, grouping
       type = "category";
     } else {
       type = "text";
@@ -102,4 +114,3 @@ export function detectColumnTypes(rows: Record<string, unknown>[]): ColumnSchema
 
   return schemas;
 }
-
