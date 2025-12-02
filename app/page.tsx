@@ -220,43 +220,54 @@ export default function Page() {
               </p>
             </div>
 
-            <div
-              onDrop={onDrop}
-              onDragOver={onDragOver}
-              onDragLeave={onDragLeave}
-              className={`group relative mt-1 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border border-dashed p-6 text-center transition
-                ${
-                  isDragging
-                    ? "border-cyan-300 bg-cyan-500/15"
-                    : "border-slate-500/60 bg-slate-950/80 hover:border-cyan-300/90 hover:bg-slate-900/90"
-                }`}
-            >
-              <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-tr from-cyan-500/18 via-transparent to-fuchsia-500/16 opacity-90" />
-              <div className="relative z-10 flex flex-col items-center gap-3">
-                <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-black/70 shadow-[0_0_30px_rgba(34,211,238,0.8)]">
-                  <span className="text-2xl">⬇️</span>
-                </div>
-                <div className="text-sm font-semibold text-slate-50 md:text-base">
-                  {isDragging ? "Release to engage data link" : "Drag & drop your Excel file"}
-                </div>
-                <div className="text-[11px] text-slate-300">
-                  or{" "}
-                  <span className="text-cyan-300 underline underline-offset-4">
-                    click to select manually
-                  </span>
-                </div>
-                <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-black/75 px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-cyan-200">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.9)]" />
-                  Client-side parsing · No cloud storage
-                </div>
-              </div>
-              <input
-                type="file"
-                accept=".xlsx,.xls"
-                onChange={onInputChange}
-                className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-              />
-            </div>
+            {/* Upload / Dropzone */}
+<div
+  onDrop={onDrop}
+  onDragOver={onDragOver}
+  onDragLeave={onDragLeave}
+  className={`group relative mt-1 flex flex-col items-center justify-center gap-2 rounded-2xl border border-dashed p-6 text-center transition
+    ${
+      isDragging
+        ? "border-cyan-300 bg-cyan-500/15"
+        : "border-slate-500/60 bg-slate-950/80 hover:border-cyan-300/90 hover:bg-slate-900/90"
+    }`}
+>
+  {/* Visual overlay only – no pointer events */}
+  <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-tr from-cyan-500/18 via-transparent to-fuchsia-500/16 opacity-90" />
+
+  {/* Clickable label that sits above everything */}
+  <label
+    htmlFor="excel-file-input"
+    className="relative z-10 flex w-full flex-col items-center gap-3 cursor-pointer"
+  >
+    <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-black/70 shadow-[0_0_30px_rgba(34,211,238,0.8)]">
+      <span className="text-2xl">⬇️</span>
+    </div>
+    <div className="text-sm font-semibold text-slate-50 md:text-base">
+      {isDragging ? "Release to engage data link" : "Drag & drop your Excel file"}
+    </div>
+    <div className="text-[11px] text-slate-300">
+      or{" "}
+      <span className="text-cyan-300 underline underline-offset-4">
+        click to select manually
+      </span>
+    </div>
+    <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-black/75 px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-cyan-200">
+      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.9)]" />
+      Client-side parsing · No cloud storage
+    </div>
+  </label>
+</div>
+
+{/* Hidden file input (outside, always clickable via label) */}
+<input
+  id="excel-file-input"
+  type="file"
+  accept=".xlsx,.xls"
+  onChange={onInputChange}
+  className="hidden"
+/>
+
 
             {error && (
               <p className="mt-1 text-xs text-rose-300">
