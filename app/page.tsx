@@ -195,79 +195,69 @@ export default function Page() {
       <div className="grid gap-4 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
         {/* LEFT: TITLE + UPLOAD */}
         <motion.div
-          className="relative holo-card overflow-hidden p-5 md:p-6"
+          className="relative holo-card p-5 md:p-6"
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4 }}
         >
-          <div className="pointer-events-none absolute inset-0 opacity-30">
-            <div className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-cyan-400/0 via-cyan-400/80 to-cyan-400/0" />
-            <div className="absolute inset-y-8 left-0 w-px bg-gradient-to-b from-cyan-400/0 via-cyan-400/70 to-cyan-400/0" />
-          </div>
-
           <div className="relative z-10 flex flex-col gap-4">
             <div>
-              <p className="font-orbitron text-[10px] uppercase tracking-[0.5em] text-cyan-300">
+              <p className="font-orbitron text-[10px] uppercase tracking-[0.4em] text-cyan-300">
                 NEXUS PROTOCOL // DATA OPS
               </p>
               <h1 className="neon-text font-orbitron mt-2 text-xl font-semibold tracking-[0.18em] md:text-2xl">
                 EXCEL VISUAL COMMAND CENTER
               </h1>
-              <p className="mt-2 text-xs text-slate-200/90 md:text-sm">
-                Stream any spreadsheet into a real-time tactical HUD. Columns are auto-classified
-                as numeric, temporal, boolean or categorical and wired into charts, grids and
-                schema overlays.
+              <p className="mt-2 text-xs text-slate-200 md:text-sm">
+                Stream any spreadsheet into a real-time tactical console. Columns are
+                auto-classified as numeric, temporal, boolean or categorical and wired
+                into charts, grids and schema overlays.
               </p>
             </div>
 
             {/* Upload / Dropzone */}
-<div
-  onDrop={onDrop}
-  onDragOver={onDragOver}
-  onDragLeave={onDragLeave}
-  className={`group relative mt-1 flex flex-col items-center justify-center gap-2 rounded-2xl border border-dashed p-6 text-center transition
-    ${
-      isDragging
-        ? "border-cyan-300 bg-cyan-500/15"
-        : "border-slate-500/60 bg-slate-950/80 hover:border-cyan-300/90 hover:bg-slate-900/90"
-    }`}
->
-  {/* Visual overlay only – no pointer events */}
-  <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-tr from-cyan-500/18 via-transparent to-fuchsia-500/16 opacity-90" />
+            <div
+              onDrop={onDrop}
+              onDragOver={onDragOver}
+              onDragLeave={onDragLeave}
+              className={`group relative mt-1 flex flex-col items-center justify-center gap-2 rounded-2xl border border-dashed p-6 text-center transition
+                ${
+                  isDragging
+                    ? "border-cyan-300 bg-cyan-500/15"
+                    : "border-slate-500/60 bg-slate-950/80 hover:border-cyan-300 hover:bg-slate-900/90"
+                }`}
+            >
+              <label
+                htmlFor="excel-file-input"
+                className="relative flex w-full flex-col items-center gap-3 cursor-pointer"
+              >
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-black/80 shadow-[0_0_24px_rgba(34,211,238,0.8)]">
+                  <span className="text-2xl">⬇️</span>
+                </div>
+                <div className="text-sm font-semibold text-slate-50 md:text-base">
+                  {isDragging ? "Release to upload" : "Drag & drop your Excel file"}
+                </div>
+                <div className="text-[11px] text-slate-300">
+                  or{" "}
+                  <span className="text-cyan-300 underline underline-offset-4">
+                    click to select manually
+                  </span>
+                </div>
+                <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-black/80 px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-cyan-200">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.9)]" />
+                  Client-side parsing · No cloud storage
+                </div>
+              </label>
+            </div>
 
-  {/* Clickable label that sits above everything */}
-  <label
-    htmlFor="excel-file-input"
-    className="relative z-10 flex w-full flex-col items-center gap-3 cursor-pointer"
-  >
-    <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-black/70 shadow-[0_0_30px_rgba(34,211,238,0.8)]">
-      <span className="text-2xl">⬇️</span>
-    </div>
-    <div className="text-sm font-semibold text-slate-50 md:text-base">
-      {isDragging ? "Release to engage data link" : "Drag & drop your Excel file"}
-    </div>
-    <div className="text-[11px] text-slate-300">
-      or{" "}
-      <span className="text-cyan-300 underline underline-offset-4">
-        click to select manually
-      </span>
-    </div>
-    <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-black/75 px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-cyan-200">
-      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.9)]" />
-      Client-side parsing · No cloud storage
-    </div>
-  </label>
-</div>
-
-{/* Hidden file input (outside, always clickable via label) */}
-<input
-  id="excel-file-input"
-  type="file"
-  accept=".xlsx,.xls"
-  onChange={onInputChange}
-  className="hidden"
-/>
-
+            {/* Hidden file input (triggered by label) */}
+            <input
+              id="excel-file-input"
+              type="file"
+              accept=".xlsx,.xls"
+              onChange={onInputChange}
+              className="hidden"
+            />
 
             {error && (
               <p className="mt-1 text-xs text-rose-300">
@@ -278,7 +268,7 @@ export default function Page() {
             {fileName && (
               <div className="mt-1 flex items-center justify-between text-[11px] text-slate-300">
                 <span className="uppercase tracking-[0.22em] text-slate-400">
-                  Active uplink
+                  Active file
                 </span>
                 <span className="max-w-[200px] truncate text-cyan-200">
                   {fileName}
@@ -288,138 +278,107 @@ export default function Page() {
           </div>
         </motion.div>
 
-        {/* RIGHT: RADAR + SUMMARY */}
+        {/* RIGHT: SUMMARY */}
         <motion.div
-          className="relative holo-card overflow-hidden p-5 md:p-6"
+          className="relative holo-card p-5 md:p-6"
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.05, duration: 0.5 }}
+          transition={{ delay: 0.05, duration: 0.4 }}
         >
-          <div className="pointer-events-none absolute inset-0 opacity-40">
-            <div className="absolute -right-24 top-0 h-40 w-40 rounded-full bg-cyan-500/40 blur-3xl" />
-            <div className="absolute -left-16 bottom-0 h-36 w-36 rounded-full bg-fuchsia-500/35 blur-3xl" />
-          </div>
-
           <div className="relative z-10 flex h-full flex-col gap-4">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="font-orbitron text-[10px] uppercase tracking-[0.5em] text-emerald-300">
+                <p className="font-orbitron text-[10px] uppercase tracking-[0.4em] text-emerald-300">
                   TELEMETRY // 02
                 </p>
                 <h2 className="mt-1 text-sm font-semibold text-slate-50 md:text-base">
                   Dataset diagnostics
                 </h2>
-                <p className="mt-1 text-xs text-slate-300">
-                  Live scan of rows, columns and channel roles. Numeric and temporal fields
-                  feed tactical charts; categorical fields fuel grouping and filters.
+                <p className="mt-1 text-xs text-slate-200">
+                  Live scan of rows, columns and channel roles. Numeric and temporal
+                  fields feed tactical charts; categorical fields fuel grouping and filters.
                 </p>
               </div>
               <span className="rounded-full bg-slate-950/90 px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-slate-300">
-                {hasData ? "Signal: Locked" : "Signal: Searching"}
+                {hasData ? "Signal: Locked" : "Signal: Waiting"}
               </span>
             </div>
 
-            <div className="mt-1 grid flex-1 gap-3 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-              {/* Radar */}
-              <div className="relative flex items-center justify-center">
-                <div className="hud-radar h-32 w-32 md:h-36 md:w-36">
-                  <div className="hud-radar-lines" />
-                  <div
-                    className="hud-radar-blip"
-                    style={{ top: "24%", left: "62%" }}
+            {!parsed && (
+              <p className="mt-1 text-xs text-slate-300">
+                Once a file is loaded, you&apos;ll see row counts, column roles and a
+                breakdown of numeric, temporal and categorical channels here.
+              </p>
+            )}
+
+            {parsed && summary && (
+              <>
+                <div className="grid grid-cols-3 gap-2 text-xs">
+                  <MiniStat label="Rows" value={summary.totalRows.toString()} tone="cyan" />
+                  <MiniStat
+                    label="Columns"
+                    value={parsed.schema.length.toString()}
+                    tone="emerald"
                   />
-                  <div
-                    className="hud-radar-blip"
-                    style={{ top: "62%", left: "32%", animationDelay: "0.9s" }}
+                  <MiniStat
+                    label="Numeric"
+                    value={summary.byType.number.toString()}
+                    tone="fuchsia"
                   />
-                  <div
-                    className="hud-radar-blip"
-                    style={{ top: "40%", left: "46%", animationDelay: "1.6s" }}
+                  <MiniStat
+                    label="Temporal"
+                    value={summary.byType.date.toString()}
+                    tone="sky"
+                  />
+                  <MiniStat
+                    label="Categories"
+                    value={summary.byType.category.toString()}
+                    tone="amber"
+                  />
+                  <MiniStat
+                    label="Text"
+                    value={summary.byType.text.toString()}
+                    tone="slate"
                   />
                 </div>
-              </div>
 
-              {/* Stats */}
-              <div className="flex flex-col gap-2 text-xs">
-                {!parsed && (
-                  <p className="text-slate-300">
-                    Once a file is loaded, you&apos;ll see row counts, column roles and a
-                    breakdown of numeric, temporal and categorical channels here.
+                <div className="mt-2 rounded-2xl bg-black/40 p-3 text-[11px]">
+                  <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-slate-400">
+                    Column channels
                   </p>
-                )}
-
-                {parsed && summary && (
-                  <>
-                    <div className="grid grid-cols-3 gap-2">
-                      <MiniStat label="Rows" value={summary.totalRows.toString()} tone="cyan" />
-                      <MiniStat
-                        label="Columns"
-                        value={parsed.schema.length.toString()}
-                        tone="emerald"
-                      />
-                      <MiniStat
-                        label="Numeric"
-                        value={summary.byType.number.toString()}
-                        tone="fuchsia"
-                      />
-                      <MiniStat
-                        label="Temporal"
-                        value={summary.byType.date.toString()}
-                        tone="sky"
-                      />
-                      <MiniStat
-                        label="Categories"
-                        value={summary.byType.category.toString()}
-                        tone="amber"
-                      />
-                      <MiniStat
-                        label="Text"
-                        value={summary.byType.text.toString()}
-                        tone="slate"
-                      />
-                    </div>
-
-                    <div className="mt-2 rounded-2xl bg-black/40 p-3 text-[11px]">
-                      <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-slate-400">
-                        Column channels
-                      </p>
-                      <div className="flex flex-wrap gap-1.5">
-                        {parsed.schema.map((col) => (
-                          <span
-                            key={col.name}
-                            className="inline-flex items-center gap-1 rounded-full bg-slate-900/80 px-2 py-1"
-                          >
-                            <span className="max-w-[110px] truncate text-[11px] text-slate-100">
-                              {col.name}
-                            </span>
-                            <span className="text-[9px] uppercase tracking-[0.2em] text-cyan-300">
-                              {col.type}
-                            </span>
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {parsed.schema.map((col) => (
+                      <span
+                        key={col.name}
+                        className="inline-flex items-center gap-1 rounded-full bg-slate-900/80 px-2 py-1"
+                      >
+                        <span className="max-w-[110px] truncate text-[11px] text-slate-100">
+                          {col.name}
+                        </span>
+                        <span className="text-[9px] uppercase tracking-[0.2em] text-cyan-300">
+                          {col.type}
+                        </span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </motion.div>
       </div>
 
       {/* BOTTOM: TABBED CONSOLE */}
       <motion.div
-        className="relative holo-card overflow-hidden p-0"
+        className="relative holo-card p-0"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1, duration: 0.55 }}
+        transition={{ delay: 0.1, duration: 0.45 }}
       >
-        <div className="pointer-events-none absolute inset-0 opacity-35 mix-blend-soft-light hud-scanlines" />
-
         {/* Tabs header */}
-        <div className="relative z-10 border-b border-cyan-500/35 px-4 pt-3 md:px-6">
+        <div className="border-b border-cyan-500/35 px-4 pt-3 md:px-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex gap-1 rounded-full bg-slate-950/90 p-1 text-xs">
+            <div className="flex gap-1 rounded-full bg-slate-950/95 p-1 text-xs">
               <TabButton
                 id="overview"
                 label="Mission Overview"
@@ -454,15 +413,15 @@ export default function Page() {
         </div>
 
         {/* Tab content */}
-        <div className="relative z-10 flex-1 px-4 pb-4 pt-3 md:px-6 md:pb-5 md:pt-4">
+        <div className="px-4 pb-4 pt-3 md:px-6 md:pb-5 md:pt-4">
           {!hasData && (
             <div className="flex h-full flex-col items-center justify-center text-center text-xs text-slate-300 md:text-sm">
               <p className="mb-1 font-medium text-slate-100">
                 No data stream attached.
               </p>
               <p className="max-w-md text-slate-300">
-                Inject an Excel file into the uplink above to unlock live charts, a HUD-style
-                grid and an inferred schema map.
+                Upload an Excel file above to unlock live charts, a responsive grid and a
+                generated schema map.
               </p>
             </div>
           )}
@@ -483,7 +442,7 @@ export default function Page() {
   );
 }
 
-/* ---------- Shared helpers & tabs ---------- */
+/* ---------- Helpers & subcomponents ---------- */
 
 function toNumber(value: any): number {
   if (typeof value === "number") return value;
@@ -511,12 +470,12 @@ function MiniStat({ label, value, tone }: MiniStatProps) {
   };
 
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-slate-950/90 p-2.5">
+    <div className="relative overflow-hidden rounded-2xl bg-slate-950/95 p-2.5">
       <div
-        className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${toneMap[tone]} opacity-90`}
+        className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${toneMap[tone]} opacity-80`}
       />
       <div className="relative">
-        <div className="text-[9px] uppercase tracking-[0.2em] text-slate-400">
+        <div className="text-[9px] uppercase tracking-[0.18em] text-slate-400">
           {label}
         </div>
         <div className="mt-1 text-sm font-semibold text-slate-50">
@@ -542,17 +501,16 @@ function TabButton({ id, label, activeTab, setActiveTab }: TabButtonProps) {
       onClick={() => setActiveTab(id)}
       className={`relative rounded-full px-3 py-1.5 text-[11px] font-medium transition ${
         isActive
-          ? "bg-cyan-400 text-slate-950 shadow-[0_0_28px_rgba(34,211,238,0.9)]"
+          ? "bg-cyan-400 text-slate-950 shadow-[0_0_22px_rgba(34,211,238,0.9)]"
           : "text-slate-300 hover:bg-slate-800/90"
       }`}
     >
       {label}
-      {isActive && (
-        <span className="absolute inset-x-3 -bottom-1 h-[2px] rounded-full bg-emerald-400" />
-      )}
     </button>
   );
 }
+
+/* ---------- Tabs ---------- */
 
 function OverviewTab({
   chartConfig,
@@ -565,9 +523,9 @@ function OverviewTab({
     <div className="grid h-full gap-4 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
       <div className="flex flex-col gap-3">
         <p className="text-xs text-slate-300">
-          You&apos;re viewing a mission overview for this dataset. The Nexus engine
-          scanned the first sheet, inferred channel roles and bootstrapped a tactical
-          chart from numeric and temporal data.
+          You&apos;re viewing a mission overview for this dataset. We scanned the first
+          sheet, inferred channel roles and built a tactical chart from numeric and
+          temporal data.
         </p>
 
         <div className="flex flex-wrap gap-3 text-xs">
@@ -595,13 +553,13 @@ function OverviewTab({
         </div>
 
         <div className="mt-2 flex-1 rounded-2xl bg-slate-900/90 p-3">
-          <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+          <p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
             Tactical snapshot
           </p>
           {!chartConfig && (
             <p className="text-xs text-slate-300">
-              No numeric column found to chart. Deploy another file with at least one
-              numeric field to see a live mission chart.
+              No numeric column found to chart. Try another file with at least one numeric
+              field to see a live mission chart.
             </p>
           )}
           {chartConfig && (
@@ -657,14 +615,14 @@ function OverviewTab({
       </div>
 
       <div className="flex flex-col gap-3 rounded-2xl bg-slate-900/90 p-3 text-xs">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
           Channel roles
         </p>
         <p className="text-slate-300">
           Columns are classified as numeric, temporal, boolean, categorical or text. Use
           this as a blueprint for downstream dashboards, APIs or game logic.
         </p>
-        <div className="mt-1 max-h-52 space-y-1 overflow-auto rounded-xl bg-black/70 p-2">
+        <div className="mt-1 max-h-52 space-y-1 overflow-auto rounded-xl bg-black/75 p-2">
           {parsed.schema.map((col) => (
             <div
               key={col.name}
@@ -681,7 +639,7 @@ function OverviewTab({
                   </span>
                 </span>
               </div>
-              <span className="rounded-full bg-slate-900/80 px-2 py-0.5 text-[9px] uppercase tracking-[0.2em] text-cyan-300">
+              <span className="rounded-full bg-slate-900/80 px-2 py-0.5 text-[9px] uppercase tracking-[0.18em] text-cyan-300">
                 {col.type}
               </span>
             </div>
@@ -700,7 +658,7 @@ function ChartTab({
   if (!chartConfig) {
     return (
       <div className="flex h-full items-center justify-center text-xs text-slate-300 md:text-sm">
-        No numeric column available to chart. Deploy another file with numeric data.
+        No numeric column available to chart. Try another file with numeric data.
       </div>
     );
   }
@@ -709,7 +667,7 @@ function ChartTab({
     <div className="flex h-full flex-col gap-3">
       <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
             Tactical chart
           </p>
           <p className="text-slate-200">
@@ -718,7 +676,7 @@ function ChartTab({
         </div>
         <p className="max-w-xs text-[11px] text-slate-400">
           A live waveform built from your spreadsheet. Hover to inspect data points or
-          switch tabs to adjust the battlefield.
+          switch tabs to explore other views.
         </p>
       </div>
 
@@ -772,7 +730,7 @@ function ChartTab({
 function TableTab({ parsed }: { parsed: ParsedData }) {
   return (
     <div className="flex h-full flex-col gap-2">
-      <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
         Data grid
       </p>
       <div className="relative flex-1 overflow-auto rounded-2xl bg-slate-900/90">
@@ -786,7 +744,7 @@ function TableTab({ parsed }: { parsed: ParsedData }) {
                 >
                   <div className="flex items-center gap-1.5">
                     <span>{col.name}</span>
-                    <span className="rounded-full bg-slate-900/80 px-1.5 py-0.5 text-[9px] uppercase tracking-[0.2em] text-cyan-300">
+                    <span className="rounded-full bg-slate-900/80 px-1.5 py-0.5 text-[9px] uppercase tracking-[0.18em] text-cyan-300">
                       {col.type}
                     </span>
                   </div>
@@ -826,10 +784,10 @@ function SchemaTab({ parsed }: { parsed: ParsedData }) {
   return (
     <div className="grid h-full gap-4 md:grid-cols-2">
       <div className="flex flex-col gap-2 rounded-2xl bg-slate-900/90 p-3 text-xs">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
           Column manifest
         </p>
-        <div className="mt-1 max-h-full space-y-1 overflow-auto rounded-xl bg-black/75 p-2">
+        <div className="mt-1 max-h-full space-y-1 overflow-auto rounded-xl bg-black/80 p-2">
           {parsed.schema.map((col) => (
             <div
               key={col.name}
@@ -846,7 +804,7 @@ function SchemaTab({ parsed }: { parsed: ParsedData }) {
                   </span>
                 </span>
               </div>
-              <span className="rounded-full bg-slate-900/80 px-2 py-0.5 text-[9px] uppercase tracking-[0.2em] text-cyan-300">
+              <span className="rounded-full bg-slate-900/80 px-2 py-0.5 text-[9px] uppercase tracking-[0.18em] text-cyan-300">
                 {col.type}
               </span>
             </div>
@@ -855,12 +813,12 @@ function SchemaTab({ parsed }: { parsed: ParsedData }) {
       </div>
 
       <div className="flex flex-col gap-2 rounded-2xl bg-slate-900/90 p-3 text-xs">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
           Type sketch
         </p>
         <p className="text-slate-300">
-          Conceptual TypeScript-style sketch of the row shape, based on inferred
-          column roles. Use it to wire APIs, forms or in-game logic.
+          Conceptual TypeScript-style row shape based on inferred column roles. Use this to
+          wire APIs, forms or game logic.
         </p>
         <pre className="mt-2 flex-1 overflow-auto rounded-xl bg-black/85 p-3 text-[11px] text-emerald-200">
 {`{
